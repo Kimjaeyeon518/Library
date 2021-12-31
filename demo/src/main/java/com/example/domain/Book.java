@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @ToString
-public class Book {
+public class Book extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +25,9 @@ public class Book {
 
     @Column(nullable = false)
     private String writer;
+
+    @Column(nullable = false)
+    private String content;
 
     @Column(nullable = false)
     private boolean isBorrowed;
