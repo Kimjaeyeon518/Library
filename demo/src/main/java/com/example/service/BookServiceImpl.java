@@ -22,14 +22,17 @@ public class BookServiceImpl implements BookService {
     public Book save(Book book) {
         if(bookRepository.findByIsbn(book.getIsbn()).isPresent())
             throw new DuplicatedException("Isbn is already exist : " + book.getIsbn());
-
-        return bookRepository.save(book);
+        else
+            return bookRepository.save(book);
     }
 
-//    @Override
-//    public Book findOne(Long id) {
-//        return null;
-//    }
+    @Override
+    public Book findOne(Long id) {
+        if(!bookRepository.findById(id).isPresent())
+            throw new NotFoundException("Cannot find book by ID : " + id);
+        else
+            return bookRepository.findById(id).get();
+    }
 
     @Override
     public List<Book> findAll() {

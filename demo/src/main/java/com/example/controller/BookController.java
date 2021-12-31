@@ -19,21 +19,28 @@ public class BookController {
         return "book/bookList";
     }
 
+    @GetMapping("/books/{id}")
+    public String findAll(@PathVariable("id") Long id, Model model){
+        System.out.println("BookController.findAll -> id : " + id);
+        model.addAttribute("book", bookService.findOne(id));
+        return "book/bookDetail";
+    }
+
     @PostMapping("/books")
     public String save(Book book){
         bookService.save(book);
-        return "contents/bookList";
+        return "book/bookList";
     }
 
     @PutMapping("/books/{id}")
     public String update(Book book){
         bookService.update(book);
-        return "contents/bookList";
+        return "book/bookList";
     }
 
     @DeleteMapping("/books/{id}")
     public String delete(@RequestParam Long bookId){
         bookService.delete(bookId);
-        return "contents/bookList";
+        return "book/bookList";
     }
 }
