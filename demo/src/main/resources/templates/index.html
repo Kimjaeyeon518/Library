@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/default_layout}">
+
+    <head>
+        <th:block layout:fragment="header" th:include="fragments/header"></th:block>
+    </head>
+
+    <body id="page-top">
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+            <th:block layout:fragment="sidebar" th:include="fragments/sidebar"></th:block>
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+                <!-- Main Content -->
+                <div id="content">
+
+                    <th:block layout:fragment="topbar" th:include="fragments/topbar"></th:block>
+
+                    <th:block layout:fragment="content">
+                        <div class="content">
+                            <!-- Begin Page Content -->
+                            <div class="container-fluid">
+
+                                <div class="text-center">
+                                    <div class="error mx-auto" data-text="INDEX">INDEX</div>
+                                </div>
+
+                            </div>
+                            <!-- /.container-fluid -->
+                        </div>
+                    </th:block>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <th:block layout:fragment="footer" th:include="fragments/footer"></th:block>
+
+    </body>
+</html>
