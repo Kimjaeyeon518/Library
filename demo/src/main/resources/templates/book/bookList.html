@@ -45,21 +45,20 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>대여중</td>
-                                            <td>2011/04/25</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Gavin Cortez</td>
-                                            <td>Team Leader</td>
-                                            <td>San Francisco</td>
-                                            <td>22</td>
-                                            <td>미대여</td>
-                                            <td>2008/10/26</td>
+                                        <!-- th: each를 이용하면 반복문을 이용할 수 있다. -->
+                                        <!-- th:each="student, studentStat: ${studentList}" 와 동일하며
+                                                  status를 명시하지 않더라도 앞의 "오브젝트명stat" 를 이용하여 접근 가능하다. -->
+                                        <tr th:each="book: ${bookList}">
+                                            <td th:text="${book.id}"></td>
+                                            <td>
+                                                <a th:href="@{'/books/' + ${book.id}}">
+                                                    <span th:text="${book.title}"></span>
+                                                </a>
+                                            </td>
+                                            <td th:text="${book.writer}"></td>
+                                            <td th:text="${book.isbn}"></td>
+                                            <td th:text="${book.isBorrowed}"></td>
+                                            <td th:text="${book.creadtedDate}"></td>
                                         </tr>
                                         </tbody>
                                     </table>
