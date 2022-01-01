@@ -63,8 +63,8 @@
 
                                     <div class="btn_wrap text-center">
                                         <a th:href="@{/books}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
-                                        <a th:href="@{/books/write.do( id=${book.id} )}" class="btn btn-primary waves-effect waves-light">수정하기</a>
-                                        <button type="button" class="btn btn-danger waves-effect waves-light" th:onclick="deleteBook([[ ${book.id} ]])">삭제하기</button>
+                                        <a th:href="@{'/books/edit/' + ${book.id}}" class="btn btn-primary waves-effect waves-light">수정하기</a>
+                                        <button type="button" class="btn btn-danger waves-effect waves-light" th:onclick="|deleteBook(${book.id})|">삭제하기</button>
                                     </div>
                                 </div>
                                 <!-- /.card-content -->
@@ -82,4 +82,18 @@
         <th:block layout:fragment="footer" th:include="fragments/footer"></th:block>
 
     </body>
+    <script>
+        function deleteBook(id) {
+            if(confirm("삭제하시겠습니까?")) {
+                fetch('http://localhost:8080/books/' + id, {
+                    method: 'DELETE',
+                })
+                    .then(res => res.json()) // or res.json()
+                    .then(json => {
+                        console.log(json);
+                        window.location.href="http://localhost:8080/books"
+                    });
+            }
+        }
+    </script>
 </html>

@@ -2,6 +2,7 @@ package com.example.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "book")
 @Getter
+@Setter
 @NoArgsConstructor
 @ToString
 public class Book extends BaseTimeEntity {

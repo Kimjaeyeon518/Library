@@ -20,27 +20,38 @@ public class BookController {
     }
 
     @GetMapping("/books/{id}")
-    public String findAll(@PathVariable("id") Long id, Model model){
-        System.out.println("BookController.findAll -> id : " + id);
+    public String findOne(@PathVariable("id") Long id, Model model){
         model.addAttribute("book", bookService.findOne(id));
         return "book/bookDetail";
     }
 
-    @PostMapping("/books")
-    public String save(Book book){
-        bookService.save(book);
-        return "book/bookList";
+    @GetMapping("/books/edit/{id}")
+    public String edit(@PathVariable Long id, Model model){
+        model.addAttribute("book", bookService.findOne(id));
+        return "book/bookUpdate";
     }
 
-    @PutMapping("/books/{id}")
-    public String update(Book book){
-        bookService.update(book);
-        return "book/bookList";
+    @GetMapping("/books/add")
+    public String add(){
+        return "book/bookSave";
+    }
+
+    // @ModelAttribute("item") Book book
+    // ==> @RequestParam string title ... , model.addAttribute("book", book)
+    @PostMapping(value = "/books")
+    public String save(@ModelAttribute Book book){
+        bookService.save(book);
+        return "book/bookDetail";
+    }
+
+    @PostMapping("/books/{id}")
+    public String update(@PathVariable("id") Long id, Book book){
+        bookService.update(id, book);
+        return "book/bookDetail";
     }
 
     @DeleteMapping("/books/{id}")
-    public String delete(@RequestParam Long bookId){
-        bookService.delete(bookId);
-        return "book/bookList";
+    public void delete(@PathVariable Long id){
+        bookService.delete(id);
     }
 }
