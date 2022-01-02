@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,20 +40,27 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<Book> findAll(Pageable pageable) {
-        return bookRepository.findAll(pageable);
+    public Page<Book> findAll(String isBorrowed, Pageable pageable) {
+        if(isBorrowed == null || "".equals(isBorrowed))
+            return bookRepository.findAll(pageable);
+        else
+            return bookRepository.findAll("1".equals(isBorrowed), pageable);
+
     }
 
     @Override
     public Book update(Long id, Book book) {
-        System.out.println("id = " + id);
-        System.out.println("book.getId() = " + book.getId());
         if(!bookRepository.findById(book.getId()).isPresent())
             throw new NotFoundException("Cannot find book by ID : " + book.getId());
         if(!id.equals(book.getId()))
             throw new DataFormatException("Book ID doesn't match ! -> first_ID : " + id + ", second_id :" + book.getId());
         if(bookRepository.countByIsbn(book.getIsbn()) > 0 && !id.equals(book.getId()))
             throw new DuplicatedException("Isbn is already exist : " + book.getIsbn());
+        System.out.println("book = " + book);
+        // 수정 시 isBorrowed 값이 날아가서 아래로 임시 조치
+        Book findBook = bookRepository.findById(book.getId()).get();
+        book.setBorrowed(findBook.isBorrowed());
+        book.setCreatedDate(findBook.getCreatedDate());
 
         return bookRepository.save(book);
     }

@@ -18,8 +18,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Page<Book> findAll(Pageable pageable);
 
-    @Query(value = "select b from Book b where b.isBorrowed = :isBorrowed",
-                    countQuery = "select count(b) from Book b")
-    Page<Book> findAllByIsBorrowed(@Param("isBorrowed") boolean isBorrowed, Pageable pageable);
-
+    @Query("select b from Book b where b.isBorrowed = :isBorrowed")
+    Page<Book> findAll(@Param("isBorrowed") Boolean isBorrowed, Pageable pageable);
 }

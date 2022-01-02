@@ -17,11 +17,11 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping("/books")
-    public String findAll(Model model, Pageable pageable){
-        System.out.println(pageable.getPageNumber());
-        model.addAttribute("pages", bookService.findAll(pageable));
+    public String findAll(Model model, Pageable pageable, @RequestParam(value = "isBorrowed", required = false) String isBorrowed){
+        model.addAttribute("pages", bookService.findAll(isBorrowed, pageable));
         model.addAttribute("maxPage", 5);
         model.addAttribute("currentPage", pageable.getPageNumber());
+        model.addAttribute("isBorrowed", isBorrowed);
         return "book/bookList";
     }
 
@@ -51,7 +51,7 @@ public class BookController {
     }
 
     @PostMapping("/books/{id}")
-    public String update(@PathVariable("id") Long id, Book book){
+    public String update(@PathVariable("id") Long id, @ModelAttribute Book book){
         bookService.update(id, book);
         return "book/bookDetail";
     }

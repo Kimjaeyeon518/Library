@@ -10,7 +10,7 @@ public interface BookService {
 
     Book save(Book book);
     Book findOne(Long id);
-    Page<Book> findAll(Pageable pageable);
+    Page<Book> findAll(String isBorrowed, Pageable pageable);
     Book update(Long id, Book book);
     void delete(Long id);
 }

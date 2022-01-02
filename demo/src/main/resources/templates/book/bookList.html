@@ -25,17 +25,23 @@
                 <div class="content">
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
-
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <h5 class="m-0 font-weight-bold">책 목록</h5>
                             </div>
                             <br>
-                            <div class="btn_wrap text-center">
-                                <a th:href="@{/books/add}" class="btn btn-primary waves-effect waves-light">책 등록</a>
-                            </div>
                             <div class="card-body">
+                                <!-- 대여 상태 검색 조건 -->
+                                <form class="form-inline" th:method="get" th:action>
+                                    <select class="form-select form-select-lg mb-3" id="isBorrowed" name="isBorrowed">
+                                        <option value="">전체</option>
+                                        <option value="1">대여중</option>
+                                        <option value="0">대여 가능</option>
+                                    </select>
+                                    <button class="btn btn-primary ml-2" type="submit">검색</button>
+                                </form>
+                                <br>
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable">
                                         <thead>
@@ -45,7 +51,7 @@
                                             <th>저자</th>
                                             <th>ISBN</th>
                                             <th>상태</th>
-                                            <th>등록/수정일</th>
+                                            <th>등록일</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -63,31 +69,35 @@
                                             <td th:text="${book.isbn}"></td>
                                             <td class="text-primary" th:if="${book.isBorrowed == false}">대여 가능</td>
                                             <td class="text-danger" th:if="${book.isBorrowed == true}">대여중</td>
-                                            <td th:text="${book.updatedDate}"></td>
+                                            <td th:text="${#temporals.format( book.createdDate, 'yyyy-MM-dd HH:mm' )}"></td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
+                                <div class="btn_wrap text-left">
+                                    <a th:href="@{/books/add}" class="btn btn-primary waves-effect waves-light">책 등록</a>
+                                </div>
+                                <br>
                                 <!-- Pagination -->
                                 <div id="paging-section">
-                                    <nav aria-label="Page navigation example" class="form-group col-md-11"
+                                    <nav aria-label="Page navigation example"
                                          th:with="start=${(pages.number/maxPage)*maxPage + 1},
                   end=(${(pages.totalPages == 0) ? 1 : (start + (maxPage - 1) < pages.totalPages ? start + (maxPage - 1) : pages.totalPages)})">
                                         <ul class="pagination justify-content-center">
                                             <li th:class="${start <= 1} ? 'page-item disabled'" class="page-item">
-                                                <a class="page-link" th:href="@{/books(page=0)}" tabindex="-1"><<</a>
+                                                <a class="page-link" th:href="@{/books(page=0, isBorrowed=${isBorrowed})}" tabindex="-1"><<</a>
                                             </li>
                                             <li th:class="${start <= 1} ? 'page-item disabled'" class="page-item">
-                                                <a class="page-link" th:href="@{/books(page=${start - maxPage - 1})}" tabindex="-1">Previous</a>
+                                                <a class="page-link" th:href="@{/books(page=${start - maxPage - 1}, isBorrowed=${isBorrowed})}" tabindex="-1">Previous</a>
                                             </li>
                                             <li th:class="${currentPage == (page - 1)} ? 'page-item active'" class="page-item" th:each="page: ${#numbers.sequence(start, end)}">
-                                                <a class="page-link" th:href="@{/books(page=${page-1})}" th:text="${page}"></a>
+                                                <a class="page-link" th:href="@{/books(page=${page}-1, isBorrowed=${isBorrowed})}" th:text="${page}"></a>
                                             </li>
                                             <li th:class="${end >= pages.totalPages} ? 'page-item disabled'" class="page-item">
-                                                <a class="page-link" th:href="@{/books(page=${start + maxPage - 1})}">Next</a>
+                                                <a class="page-link" th:href="@{/books(page=${start + maxPage - 1}, isBorrowed=${isBorrowed})}">Next</a>
                                             </li>
                                             <li th:class="${end >= pages.totalPages} ? 'page-item disabled'" class="page-item">
-                                                <a class="page-link" th:href="@{/books(page=${pages.totalPages - 1})}">>></a>
+                                                <a class="page-link" th:href="@{/books(page=${pages.totalPages - 1}, isBorrowed=${isBorrowed})}">>></a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -95,10 +105,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
                     <!-- /.container-fluid -->
                 </div>
             </th:block>
