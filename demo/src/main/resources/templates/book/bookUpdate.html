@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}">
+
+<head>
+    <th:block layout:fragment="header" th:include="fragments/header"></th:block>
+</head>
+
+<body id="page-top">
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <th:block layout:fragment="sidebar" th:include="fragments/sidebar"></th:block>
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+
+            <th:block layout:fragment="topbar" th:include="fragments/topbar"></th:block>
+
+            <th:block layout:fragment="content">
+                <div class="content">
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+                        <div class="card-content">
+                            <form class="form-horizontal" th:action="@{'/books/' + ${book.id}}" th:object="${book}" method="post">
+                                <div class="form-group">
+                                    <label for="id" class="bg-dark col-sm-2 control-label">ID</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control" th:field="*{id}" th:text="*{id}"></p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="title" class="col-sm-2 control-label">제목</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" th:field="*{title}" class="form-control" placeholder="제목을 입력해 주세요." />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="writer" class="col-sm-2 control-label">저자</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" th:field="*{writer}" class="form-control" placeholder="이름을 입력해 주세요." />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="isbn" class="col-sm-2 control-label">ISBN</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" th:field="*{isbn}" class="form-control" placeholder="이름을 입력해 주세요." />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="content" class="col-sm-2 control-label">내용</label>
+                                    <div class="col-sm-10">
+                                        <textarea th:field="*{content}" class="form-control" th:text="*{content}" placeholder="내용을 입력해 주세요."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="btn_wrap text-center">
+                                    <a th:href="@{'/books/' + *{id}}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light">저장하기</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.card-content -->
+                    </div>
+                    <!-- /.container-fluid -->
+                </div>
+            </th:block>
+
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Footer -->
+<th:block layout:fragment="footer" th:include="fragments/footer"></th:block>
+
+</body>
+</html>
