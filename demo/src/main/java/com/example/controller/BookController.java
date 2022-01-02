@@ -3,6 +3,9 @@ package com.example.controller;
 import com.example.domain.Book;
 import com.example.service.BookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +17,11 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping("/books")
-    public String findAll(Model model){
-        model.addAttribute("bookList", bookService.findAll());
+    public String findAll(Model model, Pageable pageable){
+        System.out.println(pageable.getPageNumber());
+        model.addAttribute("pages", bookService.findAll(pageable));
+        model.addAttribute("maxPage", 5);
+        model.addAttribute("currentPage", pageable.getPageNumber());
         return "book/bookList";
     }
 

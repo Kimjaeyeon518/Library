@@ -45,14 +45,14 @@
                                             <th>저자</th>
                                             <th>ISBN</th>
                                             <th>상태</th>
-                                            <th>입고일</th>
+                                            <th>등록/수정일</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <!-- th: each를 이용하면 반복문을 이용할 수 있다. -->
                                         <!-- th:each="student, studentStat: ${studentList}" 와 동일하며
                                                   status를 명시하지 않더라도 앞의 "오브젝트명stat" 를 이용하여 접근 가능하다. -->
-                                        <tr th:each="book: ${bookList}">
+                                        <tr th:each="book: ${pages}">
                                             <td th:text="${book.id}"></td>
                                             <td>
                                                 <a th:href="@{'/books/' + ${book.id}}">
@@ -61,15 +61,44 @@
                                             </td>
                                             <td th:text="${book.writer}"></td>
                                             <td th:text="${book.isbn}"></td>
-                                            <td th:text="${book.isBorrowed}"></td>
-                                            <td th:text="${book.creadtedDate}"></td>
+                                            <td class="text-primary" th:if="${book.isBorrowed == false}">대여 가능</td>
+                                            <td class="text-danger" th:if="${book.isBorrowed == true}">대여중</td>
+                                            <td th:text="${book.updatedDate}"></td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
+                                <!-- Pagination -->
+                                <div id="paging-section">
+                                    <nav aria-label="Page navigation example" class="form-group col-md-11"
+                                         th:with="start=${(pages.number/maxPage)*maxPage + 1},
+                  end=(${(pages.totalPages == 0) ? 1 : (start + (maxPage - 1) < pages.totalPages ? start + (maxPage - 1) : pages.totalPages)})">
+                                        <ul class="pagination justify-content-center">
+                                            <li th:class="${start <= 1} ? 'page-item disabled'" class="page-item">
+                                                <a class="page-link" th:href="@{/books(page=0)}" tabindex="-1"><<</a>
+                                            </li>
+                                            <li th:class="${start <= 1} ? 'page-item disabled'" class="page-item">
+                                                <a class="page-link" th:href="@{/books(page=${start - maxPage - 1})}" tabindex="-1">Previous</a>
+                                            </li>
+                                            <li th:class="${currentPage == (page - 1)} ? 'page-item active'" class="page-item" th:each="page: ${#numbers.sequence(start, end)}">
+                                                <a class="page-link" th:href="@{/books(page=${page-1})}" th:text="${page}"></a>
+                                            </li>
+                                            <li th:class="${end >= pages.totalPages} ? 'page-item disabled'" class="page-item">
+                                                <a class="page-link" th:href="@{/books(page=${start + maxPage - 1})}">Next</a>
+                                            </li>
+                                            <li th:class="${end >= pages.totalPages} ? 'page-item disabled'" class="page-item">
+                                                <a class="page-link" th:href="@{/books(page=${pages.totalPages - 1})}">>></a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+
+
+
                     <!-- /.container-fluid -->
                 </div>
             </th:block>
