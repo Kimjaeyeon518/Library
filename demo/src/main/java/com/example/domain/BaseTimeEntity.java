@@ -1,6 +1,7 @@
 package com.example.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.tomcat.jni.Local;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -11,12 +12,13 @@ import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @MappedSuperclass   // BaseTimeEntity 클래스를 상속하면 아래 필드들을 컬럼으로 인식
 @EntityListeners(AuditingEntityListener.class) // Auditing (자동으로 값 매핑) 기능 추가
 public abstract class BaseTimeEntity {
 
     @CreatedDate
-    private LocalDateTime creadtedDate;
+    private LocalDateTime createdDate;
 
     @LastModifiedDate
     private LocalDateTime updatedDate;
