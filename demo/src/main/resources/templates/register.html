@@ -22,28 +22,25 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">회원가입</h1>
                             </div>
-                            <form class="user">
+                            <form class="user" th:action="@{/members}" method="post">
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="name"
+                                    <input type="text" class="form-control form-control-user" id="name" name="name"
                                            placeholder="Name">
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
+                                    <input type="email" class="form-control form-control-user" id="email" name="email"
                                         placeholder="Email Address">
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password">
+                                            id="password" name="password" placeholder="Password">
                                     </div>
                                 </div>
-                                <a href="login.html" class="btn btn-danger btn-user btn-block">
+                                <input type="hidden" id="role" name="role" value="ROLE_USER"/>
+                                <button type="submit" class="btn btn-danger btn-user btn-block">
                                     Register Account
-                                </a>
+                                </button>
                             </form>
                             <hr>
                             <div class="text-center">
@@ -58,7 +55,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- Footer -->

@@ -1,7 +1,6 @@
 package com.example.service;
 
 import com.example.domain.Borrow;
-import com.example.domain.User;
 
 import java.util.List;
 

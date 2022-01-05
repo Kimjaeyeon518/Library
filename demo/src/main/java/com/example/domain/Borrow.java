@@ -1,5 +1,6 @@
 package com.example.domain;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,10 +12,10 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @ToString
-public class Borrow {
+public class Borrow extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 

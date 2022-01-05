@@ -1,18 +1,20 @@
 package com.example.domain;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "member")
 @Getter
+@Setter
 @NoArgsConstructor
 @ToString
-public class User {
+public class Member extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
@@ -22,13 +24,9 @@ public class User {
     private String name;
 
     @Column(nullable = false)
-    private int age;
+    private String password;
 
-    @Builder
-    public User(Long id, String email, String name, int age) {
-        this.id = id;
-        this.email = email;
-        this.name = name;
-        this.age = age;
-    }
+    @Column(nullable = false)
+    private String role;
+
 }
