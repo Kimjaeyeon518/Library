@@ -13,17 +13,14 @@ import org.springframework.stereotype.Service;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Member findByEmail(String email) {
-        System.out.println("memberRepository.findByEmail(email) = " + memberRepository.findByEmail(email));
         return memberRepository.findByEmail(email);
     }
 
     @Override
     public Member save(Member member) {
-        member.setPassword(passwordEncoder.encode(member.getPassword()));
         return memberRepository.save(member);
     }
 
