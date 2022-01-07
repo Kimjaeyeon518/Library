@@ -69,9 +69,9 @@
 
                                     <div class="btn_wrap text-center">
                                         <a th:href="@{/books}" class="btn btn-secondary waves-effect waves-light">뒤로가기</a>
-                                        <button sec:authorize="hasRole('ROLE_USER')" type="button" class="btn btn-success waves-effect waves-light" th:onclick="|borrowBook(${book.id})|">대여하기</button>
-                                        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{'/books/edit/' + ${book.id}}" class="btn btn-primary waves-effect waves-light">수정하기</a>
-                                        <button sec:authorize="hasRole('ROLE_ADMIN')" type="button" class="btn btn-danger waves-effect waves-light" th:onclick="|deleteBook(${book.id})|">삭제하기</button>
+                                        <button th:if="${member != null && (member.role == 'ROLE_USER' || member.role == 'ROLE_ADMIN')}" type="button" class="btn btn-success waves-effect waves-light" th:onclick="|borrowBook(${book.id})|">대여하기</button>
+                                        <a th:if="${member != null && member.role == 'ROLE_ADMIN'}" th:href="@{'/books/edit/' + ${book.id}}" class="btn btn-primary waves-effect waves-light">수정하기</a>
+                                        <button th:if="${member != null && member.role == 'ROLE_ADMIN'}" type="button" class="btn btn-danger waves-effect waves-light" th:onclick="|deleteBook(${book.id})|">삭제하기</button>
                                     </div>
                                 </div>
                                 <!-- /.card-content -->
