@@ -33,6 +33,7 @@ public class Book extends BaseTimeEntity {
 
     @OneToOne
     @JoinColumn(name = "member_id")
+    @Column(nullable = true)
     private Member member;
 
     @Column(nullable = false)
