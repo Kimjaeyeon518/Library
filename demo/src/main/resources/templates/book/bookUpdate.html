@@ -26,6 +26,7 @@
                         <div class="card-content">
                             <form class="form-horizontal" th:action="@{'/books/' + ${book.id}}" th:object="${book}" method="post">
                                 <input type="hidden" th:field="*{createdDate}" th:value="*{createdDate}"/>
+                                <input type="hidden" th:field="*{isBorrowed}" th:value="*{isBorrowed}"/>
                                 <div class="form-group">
                                     <label for="id" class="bg-dark col-sm-2 control-label">ID</label>
                                     <div class="col-sm-10">

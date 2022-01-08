@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.domain.Book;
+import com.example.domain.Member;
 import com.example.repository.BookRepository;
 import com.example.exception.DataFormatException;
 import com.example.exception.DeleteFailException;
@@ -56,11 +57,11 @@ public class BookServiceImpl implements BookService {
             throw new DataFormatException("Book ID doesn't match ! -> first_ID : " + id + ", second_id :" + book.getId());
         if(bookRepository.countByIsbn(book.getIsbn()) > 0 && !id.equals(book.getId()))
             throw new DuplicatedException("Isbn is already exist : " + book.getIsbn());
-        System.out.println("book = " + book);
+
         // 수정 시 isBorrowed 값이 날아가서 아래로 임시 조치
-        Book findBook = bookRepository.findById(book.getId()).get();
-        book.setBorrowed(findBook.isBorrowed());
-        book.setCreatedDate(findBook.getCreatedDate());
+//        Book findBook = bookRepository.findById(book.getId()).get();
+//        book.setBorrowed(findBook.isBorrowed());
+//        book.setCreatedDate(findBook.getCreatedDate());
 
         return bookRepository.save(book);
     }
@@ -70,9 +71,9 @@ public class BookServiceImpl implements BookService {
         if(!bookRepository.findById(id).isPresent())
             throw new NotFoundException("Cannot find book by ID : " + id);
 
-        bookRepository.deleteById(id);
+        bookRepository.delete(id);
 
-        if(bookRepository.findById(id).isPresent())
+        if(bookRepository.checkDisabled(id) == 0)
             throw new DeleteFailException("Failed to Delete with ID : " + id);
     }
 }

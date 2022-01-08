@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/books")
 public class BookController {
 
     private final BookService bookService;
 
-    @GetMapping
+    @GetMapping("/books")
     public String findAll(Model model, Pageable pageable, @RequestParam(value = "isBorrowed", required = false) String isBorrowed){
         model.addAttribute("pages", bookService.findAll(isBorrowed, pageable));
         model.addAttribute("maxPage", 5);
@@ -27,38 +26,39 @@ public class BookController {
         return "book/bookList";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/books/{id}")
     public String findOne(@PathVariable("id") Long id, Model model){
         model.addAttribute("book", bookService.findOne(id));
         return "book/bookDetail";
     }
 
     // @ModelAttribute Book book == @RequestParam string title ... , model.addAttribute("book", book)
-    @PostMapping
+    @PostMapping("/books")
     public String save(@ModelAttribute Book book){
         bookService.save(book);
         return "book/bookDetail";
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/books/{id}")
     public String update(@PathVariable("id") Long id, @ModelAttribute Book book){
         bookService.update(id, book);
         return "book/bookDetail";
     }
 
-    @DeleteMapping("/{id}")
+    @PutMapping("/books/{id}")
     public void delete(@PathVariable Long id){
         bookService.delete(id);
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/books/edit/{id}")
     public String edit(@PathVariable Long id, Model model){
         model.addAttribute("book", bookService.findOne(id));
         return "book/bookUpdate";
     }
 
-    @GetMapping("/add")
+    @GetMapping("/books/add")
     public String add(){
         return "book/bookSave";
     }
+
 }

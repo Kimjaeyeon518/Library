@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.domain.Book;
+import com.example.domain.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
