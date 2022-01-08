@@ -31,6 +31,10 @@ public class Book extends BaseTimeEntity {
     @Column(nullable = false)
     private String content;
 
+    @OneToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     @Column(nullable = false)
-    private boolean isBorrowed;
+    private boolean disabled;
 }

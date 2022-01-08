@@ -29,4 +29,6 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String role;
 
+    @Column(nullable = false)
+    private boolean disabled;
 }
