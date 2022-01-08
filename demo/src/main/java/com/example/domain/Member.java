@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "member")
@@ -29,6 +31,10 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String role;
 
+    @OneToMany(mappedBy = "member")
+    private List<Borrow> borrowList = new ArrayList<>();
+
     @Column(nullable = false)
     private boolean disabled;
+
 }

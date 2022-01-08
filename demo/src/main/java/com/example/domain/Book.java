@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "book")
@@ -31,11 +33,12 @@ public class Book extends BaseTimeEntity {
     @Column(nullable = false)
     private String content;
 
-    @OneToOne
-    @JoinColumn(name = "member_id")
-    @Column(nullable = true)
-    private Member member;
+    @OneToMany(mappedBy = "book")
+    private List<Borrow> borrowList = new ArrayList<>();
 
     @Column(nullable = false)
-    private boolean disabled;
+    private boolean isBorrowed;
+
+    @Column(nullable = false)
+    private boolean isDisabled;
 }

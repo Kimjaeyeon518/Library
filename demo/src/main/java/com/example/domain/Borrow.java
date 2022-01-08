@@ -18,11 +18,13 @@ public class Borrow extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long bookId;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    @Column(nullable = false)
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
 
     @Column(nullable = false)
     private String bookTitle;
