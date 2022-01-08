@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @ToString
-@AllArgsConstructor
 public class Borrow extends BaseTimeEntity {
 
     @Id
@@ -34,4 +33,15 @@ public class Borrow extends BaseTimeEntity {
 
     @Column(nullable = false)
     private boolean isBorrowed;
+
+    @Builder
+    public Borrow(Member member, Book book, String bookTitle, String bookWriter, boolean isBorrowed) {
+        this.member = member;                   // 양방향 매핑
+        this.member.getBorrowList().add(this);  // 양방향 매핑
+        this.book = book;                       // 양방향 매핑
+        this.book.getBorrowList().add(this);    // 양방향 매핑
+        this.bookTitle = bookTitle;
+        this.bookWriter = bookWriter;
+        this.isBorrowed = isBorrowed;
+    }
 }
