@@ -34,24 +34,28 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book findOne(Long id) {
-        if(!bookRepository.findById(id).isPresent())
+        Optional<Book> findBook = bookRepository.findByIdAndIsDisabled(id, false);
+
+        if(!findBook.isPresent())
             throw new NotFoundException("Cannot find book by ID : " + id);
         else
-            return bookRepository.findById(id).get();
+            return findBook.get();
     }
 
     @Override
     public Page<Book> findAll(String isBorrowed, Pageable pageable) {
         if(isBorrowed == null || "".equals(isBorrowed))
-            return bookRepository.findAll(pageable);
+            return bookRepository.findAllByIsDisabled(false, pageable);
         else
-            return bookRepository.findAll("1".equals(isBorrowed), pageable);
+            return bookRepository.findAllByIsBorrowedAndIsDisabled("1".equals(isBorrowed), false, pageable);
 
     }
 
     @Override
     public Book update(Long id, Book book) {
-        if(!bookRepository.findById(book.getId()).isPresent())
+        Optional<Book> findBook = bookRepository.findByIdAndIsDisabled(book.getId(), false);
+
+        if(!findBook.isPresent())
             throw new NotFoundException("Cannot find book by ID : " + book.getId());
         if(!id.equals(book.getId()))
             throw new DataFormatException("Book ID doesn't match ! -> first_ID : " + id + ", second_id :" + book.getId());
@@ -59,21 +63,19 @@ public class BookServiceImpl implements BookService {
             throw new DuplicatedException("Isbn is already exist : " + book.getIsbn());
 
         // 수정 시 isBorrowed 값이 날아가서 아래로 임시 조치
-//        Book findBook = bookRepository.findById(book.getId()).get();
-//        book.setBorrowed(findBook.isBorrowed());
-//        book.setCreatedDate(findBook.getCreatedDate());
+        book.setBorrowed(findBook.get().isBorrowed());
 
         return bookRepository.save(book);
     }
 
     @Override
     public void delete(Long id) {
-        if(!bookRepository.findById(id).isPresent())
+        if(!bookRepository.findByIdAndIsDisabled(id, false).isPresent())
             throw new NotFoundException("Cannot find book by ID : " + id);
 
-        bookRepository.delete(id);
+        bookRepository.updateById(id);
 
-        if(bookRepository.checkDisabled(id) == 0)
+        if(bookRepository.countByIdAndIsDisabled(id, true) == 0)
             throw new DeleteFailException("Failed to Delete with ID : " + id);
     }
 }
