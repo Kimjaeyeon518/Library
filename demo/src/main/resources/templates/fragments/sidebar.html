@@ -8,13 +8,15 @@
             <i class="fas fa-laugh-wink"></i>
         </div>
         <div class="sidebar-brand-text mx-3">HOME</div>
-        <div th:if="${member != null}">
-            <span th:text="${member.name}"></span>님 환영합니다.
-        </div>
     </a>
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
+    <li class="nav-item">
+        <a class="nav-link collapsed" th:if="${member != null}" th:href="@{/}">
+            <span class="font-weight-bold text-lg" th:text="${member.name}"></span> 님
+        </a>
+    </li>
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
@@ -40,8 +42,8 @@
         <a class="nav-link collapsed" th:href="@{/books}">
             <span>책 목록</span>
         </a>
-        <a class="nav-link collapsed" th:href="@{/members}">
-            <span>회원 목록</span>
+        <a th:if="${member != null}" class="nav-link collapsed" th:href="@{/members}">
+            <span>대여 내역</span>
         </a>
     </li>
 
