@@ -34,7 +34,7 @@ public class MemberServiceImpl implements MemberService {
         if(role == null || "".equals(role))
             return memberRepository.findAll(pageable);
         else
-            return memberRepository.findAll(role, pageable);
+            return memberRepository.findAllByRole(role, pageable);
     }
 
     @Override

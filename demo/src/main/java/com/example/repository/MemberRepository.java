@@ -12,10 +12,9 @@ import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    Member findByEmail(@Param("email") String email);
+    Member findByEmail(String email);
 
     Page<Member> findAll(Pageable pageable);
 
-    @Query("select m from Member m where m.role = :role")
-    Page<Member> findAll(@Param("role") String role, Pageable pageable);
+    Page<Member> findAllByRole(String role, Pageable pageable);
 }
