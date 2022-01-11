@@ -48,44 +48,40 @@ public class MemberController {
         return "login";
     }
 
-//    // JWT 연동 로그인
-//    @PostMapping("/login")
-//    public String login(@ModelAttribute Member member, HttpServletResponse response) {
-//        Member existMember = memberService.findByEmail(member.getEmail());
-//
-//        if(!passwordEncoder.matches(member.getPassword(), existMember.getPassword())) {
-//            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
-//        }
-//
-//        String token = jwtTokenProvider.createToken(existMember.getEmail(), existMember.getRole());
-//        response.setHeader("X-AUTH-TOKEN", token);
-//
-//        System.out.println("MemberController.login");
-//        System.out.println("token = " + token);
-//        System.out.println("existMember.getRole() = " + existMember.getRole());
-//        System.out.println("SecurityContextHolder.getContext() = " + SecurityContextHolder.getContext().getAuthentication());
-//
-//        Cookie cookie = new Cookie("X-AUTH-TOKEN", token);
-//        cookie.setPath("/");
+    // JWT 연동 로그인
+    @PostMapping("/login")
+    public String login(@ModelAttribute Member member, HttpServletResponse response, Model model) {
+        Member existMember = memberService.findByEmail(member.getEmail());
+
+        if(!passwordEncoder.matches(member.getPassword(), existMember.getPassword())) {
+            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+        }
+
+        // JWT 토큰 발급
+        String token = jwtTokenProvider.createToken(existMember.getEmail(), existMember.getRole());
+
+        Cookie cookie = new Cookie("X-AUTH-TOKEN", token);
+        cookie.setPath("/");
 //        cookie.setHttpOnly(true);
 //        cookie.setSecure(true);
-//        response.addCookie(cookie);
-//
-//        return "index";
-//    }
-//
-//    // 로그아웃
-//    @PostMapping("/logout")
-//    public String logout(HttpServletResponse response){
-//        SecurityContextHolder.getContext().setAuthentication(null);
-//        Cookie cookie = new Cookie("X-AUTH-TOKEN", null);
+        response.addCookie(cookie);
+
+        return "redirect:/";
+    }
+
+    // 로그아웃
+    @GetMapping("/logout")
+    public String logout(HttpServletResponse response){
+        System.out.println("MemberController.logout");
+        SecurityContextHolder.getContext().setAuthentication(null);
+        Cookie cookie = new Cookie("X-AUTH-TOKEN", null);
+        cookie.setMaxAge(0);
 //        cookie.setHttpOnly(true);
 //        cookie.setSecure(false);
-//        cookie.setMaxAge(0);
-//        cookie.setPath("/");
-//        response.addCookie(cookie);
-//
-//        return "login";
-//    }
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        return "login";
+    }
 
 }
