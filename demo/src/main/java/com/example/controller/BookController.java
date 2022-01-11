@@ -29,20 +29,21 @@ public class BookController {
     @GetMapping("/books/{id}")
     public String findOne(@PathVariable("id") Long id, Model model){
         model.addAttribute("book", bookService.findOne(id));
+
         return "book/bookDetail";
     }
 
     // @ModelAttribute Book book == @RequestParam string title ... , model.addAttribute("book", book)
     @PostMapping("/books")
     public String save(@ModelAttribute Book book){
-        bookService.save(book);
-        return "book/bookDetail";
+        Book savedBook = bookService.save(book);
+        return "redirect:/books/" + savedBook.getId();
     }
 
     @PostMapping("/books/{id}")
     public String update(@PathVariable("id") Long id, @ModelAttribute Book book){
         bookService.update(id, book);
-        return "book/bookDetail";
+        return "redirect:/books/" + id;
     }
 
     @PutMapping("/books/{id}")
