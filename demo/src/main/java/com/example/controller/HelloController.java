@@ -20,4 +20,7 @@ public class HelloController {
     public String signUp(){
         return "register";
     }
+
+    @GetMapping("/admin")
+    public String admin() { return "admin"; }
 }
